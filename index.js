@@ -13,10 +13,10 @@ const someAsyncFunction = async () => {
 const askUser = async() => {
     const answer = await inquirer.prompt({
         name: 'yes_or_no',
-        type: 'input',
+        type: 'confirm',
         message: "Do you want to continue?",
     })
-    answer.yes_or_no.charAt(0) === "Y" || answer.yes_or_no.charAt(0) === "y" ? console.log('yes') : process.exit(1)
+    answer.yes_or_no === true ? null : process.exit(0)
 }
 
 const pause = async (ms = 1000) => new Promise((res, rec) => setTimeout(res, ms))
@@ -51,7 +51,7 @@ const boxing = async() => {
     console.log(boxen(chalk.cyanBright(figlet.textSync(name), '\nversion 0.0.0-a.1'), {title: 'BIRGIT CHANGE AUTOMATOR', titleAlignment: 'center', textAlignment: 'center', padding: 1, margin: 2, borderStyle: 'single', borderColor:'cyanBright'}));
 }
 console.log("\n")
-askUser()
+await askUser()
 await starting()
 await boxing()
 await gitCommands()
