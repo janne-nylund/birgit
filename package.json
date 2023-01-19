@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "boxen": "^7.0.1",
+    "chalk": "^5.2.0",
+    "child_process": "^1.0.2",
+    "current-git-branch": "^1.1.0",
+    "figlet": "^1.5.2",
+    "inquirer": "^9.1.4",
+    "nanospinner": "^1.1.0"
+  },
+  "name": "birgit",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
