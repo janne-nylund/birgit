@@ -76,9 +76,9 @@ const gitCommands = async () => {
   const gitPush = createSpinner(
     chalk.cyanBright("git push origin HEAD:refs/for/develop")
   ).start();
-  await pause();
+  await git.push("origin", "HEAD:refs/for/develop");
+  await pause(500);
   gitPush.success();
-  console.log("\n");
   await pause();
 };
 
