@@ -63,7 +63,7 @@ const gitCommands = async () => {
   const gitPull = createSpinner(
     chalk.cyanBright("git pull --rebase origin")
   ).start();
-  await git.pull([remote, "--rebase"]);
+  await git.pull([origin, "--rebase"]);
   await pause(500);
   gitPull.success();
   const gitPush = createSpinner(
