@@ -29,7 +29,7 @@ const currentBranch = getCurrentBranchName();
 
 const runExit = async () => {
   const spinner = createSpinner(
-    chalk.cyanBright("Ok, exiting automator...")
+    chalk.cyanBright("Ok, exiting automator...\n")
   ).start();
   await pause();
   spinner.success();
@@ -42,7 +42,7 @@ const askUser = async () => {
     type: "confirm",
     message: `Ready to commit branch: (${currentBranch})?`,
   });
-  answer.yes_or_no === true ? await starting() : runExit();
+  answer.yes_or_no === true ? null : await runExit();
 };
 
 const pause = async (ms = 1000) =>
@@ -70,7 +70,7 @@ const gitCommands = async () => {
   const gitPull = createSpinner(
     chalk.cyanBright("git pull --rebase origin")
   ).start();
-  await git.pull("origin", "HEAD:refs/for/main", ["--rebase"]);
+  await git.pull("origin", "main", ["--rebase"]);
   await pause(500);
   gitPull.success();
   const gitPush = createSpinner(
@@ -98,5 +98,6 @@ const boxing = async () => {
   );
 };
 await askUser();
+await starting();
 await boxing();
 await gitCommands();
