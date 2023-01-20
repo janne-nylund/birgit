@@ -70,13 +70,13 @@ const gitCommands = async () => {
   const gitPull = createSpinner(
     chalk.cyanBright("git pull --rebase origin")
   ).start();
-  await git.pull("origin", "main", ["--rebase"]);
+  await git.pull("origin", "develop", ["--rebase"]);
   await pause(500);
   gitPull.success();
   const gitPush = createSpinner(
     chalk.cyanBright("git push origin HEAD:refs/for/develop")
   ).start();
-  await git.push("origin", "main");
+  await git.push("origin", "HEAD:refs/for/develop");
   await pause(500);
   gitPush.success();
   await pause();
