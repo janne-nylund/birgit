@@ -4,7 +4,6 @@ import { createSpinner } from "nanospinner";
 import figlet from "figlet";
 import inquirer from "inquirer";
 import fs from "fs";
-import path from "path";
 
 const getCurrentBranchName = (p = process.cwd()) => {
   const gitHeadPath = `${p}/.git/HEAD`;
@@ -28,14 +27,22 @@ const git = simpleGit(options);
 
 const currentBranch = getCurrentBranchName();
 
+const runExit = async () => {
+  const spinner = createSpinner(
+    chalk.cyanBright("Ok, exiting automator...\n")
+  ).start();
+  await pause();
+  spinner.success();
+  process.exit(0);
+};
 // someAsyncFunction()
 const askUser = async () => {
   const answer = await inquirer.prompt({
     name: "yes_or_no",
     type: "confirm",
-    message: `Ready to commit branch: (${currentBranch})?`,
+    message: `Ready to commit branch: ${currentBranch}?`,
   });
-  answer.yes_or_no === true ? null : process.exit(0);
+  answer.yes_or_no === true ? null : await runExit();
 };
 
 const pause = async (ms = 1000) =>
@@ -55,9 +62,9 @@ const gitCommands = async () => {
   await pause(500);
   gitAdd.success();
   const gitCommit = createSpinner(
-    chalk.cyanBright("git commit -m 'branchnamee'")
+    chalk.cyanBright(`git commit -m '${currentBranch}'`)
   ).start();
-  await git.commit(currentBranch);
+  await git.commit(`${currentBranch}`);
   await pause(500);
   gitCommit.success();
   const gitPull = createSpinner(
@@ -69,9 +76,9 @@ const gitCommands = async () => {
   const gitPush = createSpinner(
     chalk.cyanBright("git push origin HEAD:refs/for/develop")
   ).start();
-  await pause();
+  await git.push("origin", "main");
+  await pause(500);
   gitPush.success();
-  console.log("\n");
   await pause();
 };
 
@@ -90,7 +97,6 @@ const boxing = async () => {
     })
   );
 };
-console.log("\n");
 await askUser();
 await starting();
 await boxing();
