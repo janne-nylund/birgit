@@ -52,16 +52,19 @@ const starting = async () => {
 const gitCommands = async () => {
   const gitAdd = createSpinner(chalk.cyanBright("git add -A")).start();
   await git.add("-A");
+  await pause(500);
   gitAdd.success();
   const gitCommit = createSpinner(
     chalk.cyanBright("git commit -m 'branchnamee'")
   ).start();
   await git.commit(currentBranch);
+  await pause(500);
   gitCommit.success();
   const gitPull = createSpinner(
     chalk.cyanBright("git pull --rebase origin")
   ).start();
-  await pause();
+  await git.pull([remote, "--rebase"]);
+  await pause(500);
   gitPull.success();
   const gitPush = createSpinner(
     chalk.cyanBright("git push origin HEAD:refs/for/develop")
