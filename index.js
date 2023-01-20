@@ -33,7 +33,7 @@ const askUser = async () => {
   const answer = await inquirer.prompt({
     name: "yes_or_no",
     type: "confirm",
-    message: `Ready to commit branch: (${currentBranch})??`,
+    message: `Ready to commit branch: (${currentBranch})?`,
   });
   answer.yes_or_no === true ? null : process.exit(0);
 };
@@ -63,7 +63,7 @@ const gitCommands = async () => {
   const gitPull = createSpinner(
     chalk.cyanBright("git pull --rebase origin")
   ).start();
-  await git.pull("origin/main", "--rebase");
+  await git.pull("origin", "main", ["--rebase"]);
   await pause(500);
   gitPull.success();
   const gitPush = createSpinner(
