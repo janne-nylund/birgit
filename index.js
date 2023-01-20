@@ -4,7 +4,6 @@ import { createSpinner } from "nanospinner";
 import figlet from "figlet";
 import inquirer from "inquirer";
 import fs from "fs";
-import path from "path";
 
 const getCurrentBranchName = (p = process.cwd()) => {
   const gitHeadPath = `${p}/.git/HEAD`;
@@ -28,6 +27,14 @@ const git = simpleGit(options);
 
 const currentBranch = getCurrentBranchName();
 
+const runExit = async () => {
+  const spinner = createSpinner(
+    chalk.cyanBright("Ok, exiting automator...")
+  ).start();
+  await pause();
+  spinner.success();
+  process.exit(0);
+};
 // someAsyncFunction()
 const askUser = async () => {
   const answer = await inquirer.prompt({
@@ -35,7 +42,7 @@ const askUser = async () => {
     type: "confirm",
     message: `Ready to commit branch: (${currentBranch})?`,
   });
-  answer.yes_or_no === true ? null : process.exit(0);
+  answer.yes_or_no === true ? await starting() : runExit();
 };
 
 const pause = async (ms = 1000) =>
@@ -90,8 +97,6 @@ const boxing = async () => {
     })
   );
 };
-console.log("\n");
 await askUser();
-await starting();
 await boxing();
 await gitCommands();
