@@ -10,7 +10,7 @@ const getCurrentBranchName = (p = process.cwd()) => {
   const gitHeadPath = `${p}/.git/HEAD`;
 
   return fs.existsSync(gitHeadPath)
-    ? fs.readFileSync(gitHeadPath, "utf-8").trim().split("/")[2]
+    ? fs.readFileSync(gitHeadPath, "utf-8").trim().split("/").pop()
     : "not a git repo";
 };
 
@@ -54,7 +54,7 @@ const gitCommands = async () => {
   await git.add("-A");
   gitAdd.success();
   const gitCommit = createSpinner(
-    chalk.cyanBright("git commit -m 'branchname'")
+    chalk.cyanBright("git commit -m 'branchnamee'")
   ).start();
   await git.commit(currentBranch);
   gitCommit.success();
